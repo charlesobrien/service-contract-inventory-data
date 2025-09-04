@@ -1,7 +1,8 @@
 import argparse
-from pathlib import Path
-import pandas as pd
 import sys
+from pathlib import Path
+
+import pandas as pd
 
 
 def build_headers():
