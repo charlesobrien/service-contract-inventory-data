@@ -1,2 +1,6 @@
 .DS_Store
 *.xlsx
+
+.venv
+.ruff_cache
+__pycache__
