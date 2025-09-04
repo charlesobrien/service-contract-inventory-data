@@ -99,10 +99,11 @@ def main():
         df.to_csv(output_path, index=False)
 
         print(f"Wrote: {output_path}")
-        print(f"Rows: {len(df)}  |  Columns: {df.shape[1]} (expected {target_cols})")
+        print(
+            f"Rows: {len(df)}  |  Columns: {df.shape[1]} (expected {target_cols})")
     elif args.clean:
         """ 
-        Not 100% what is needed to clean the data, but as issues
+        Not 100% sure what is needed to clean the data yet, but as issues
         are discovered, this is where I'll address them.
         """
 
