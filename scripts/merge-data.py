@@ -64,7 +64,8 @@ def merge_csvs(input_dir, pattern, output_path, col_name, encoding, recursive):
                 base = os.path.basename(fp)
                 prefix = base[:4]
                 for row in reader:
-                    data_row = [prefix] + [row.get(col, "") for col in ref_header]
+                    data_row = [prefix] + \
+                        [row.get(col, "") for col in ref_header]
                     writer.writerow(data_row)
                     written_rows += 1
 
@@ -79,7 +80,8 @@ def main():
         description="Merge CSV files with identical headers, adding a first column "
         "with the first four characters of each source filename."
     )
-    parser.add_argument("input_dir", help="Directory containing CSV files to merge.")
+    parser.add_argument(
+        "input_dir", help="Directory containing CSV files to merge.")
     parser.add_argument("output", help="Path to the merged output CSV.")
     parser.add_argument(
         "--pattern",
@@ -88,8 +90,8 @@ def main():
     )
     parser.add_argument(
         "--col-name",
-        default="file_id",
-        help="Name of the new first column (default: file_id).",
+        default="file_ref",
+        help="Name of the new first column (default: file_ref).",
     )
     parser.add_argument(
         "--encoding",
