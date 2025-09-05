@@ -64,8 +64,7 @@ def merge_csvs(input_dir, pattern, output_path, col_name, encoding, recursive):
                 base = os.path.basename(fp)
                 prefix = base[:4]
                 for row in reader:
-                    data_row = [prefix] + \
-                        [row.get(col, "") for col in ref_header]
+                    data_row = [prefix] + [row.get(col, "") for col in ref_header]
                     writer.writerow(data_row)
                     written_rows += 1
 
@@ -78,19 +77,28 @@ def merge_csvs(input_dir, pattern, output_path, col_name, encoding, recursive):
 def main():
     parser = argparse.ArgumentParser(
         description="Merge CSV files with identical headers, adding a first column "
-                    "with the first four characters of each source filename."
+        "with the first four characters of each source filename."
+    )
+    parser.add_argument("input_dir", help="Directory containing CSV files to merge.")
+    parser.add_argument("output", help="Path to the merged output CSV.")
+    parser.add_argument(
+        "--pattern",
+        default="*.csv",
+        help="Glob pattern for input files (default: *.csv).",
     )
     parser.add_argument(
-        "input_dir", help="Directory containing CSV files to merge.")
-    parser.add_argument("output", help="Path to the merged output CSV.")
-    parser.add_argument("--pattern", default="*.csv",
-                        help="Glob pattern for input files (default: *.csv).")
-    parser.add_argument("--col-name", default="file_id",
-                        help="Name of the new first column (default: file_id).")
-    parser.add_argument("--encoding", default="utf-8-sig",
-                        help="File encoding for input/output (default: utf-8-sig).")
-    parser.add_argument("--recursive", action="store_true",
-                        help="If set, search nested folders too.")
+        "--col-name",
+        default="file_id",
+        help="Name of the new first column (default: file_id).",
+    )
+    parser.add_argument(
+        "--encoding",
+        default="utf-8-sig",
+        help="File encoding for input/output (default: utf-8-sig).",
+    )
+    parser.add_argument(
+        "--recursive", action="store_true", help="If set, search nested folders too."
+    )
     args = parser.parse_args()
 
     merge_csvs(
