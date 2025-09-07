@@ -141,6 +141,11 @@ def main():
         help="Pad subcontractor fields: append full sets beyond the highest present sub index up to 100.",
     )
 
+    parser.add_argument(
+        "--add-composite",
+        action="store_true",
+        help="When converting Excel to CSV (--csv), insert a first column named 'composite_key' which = 'referenced_idv_piid~piid'. This should be unique for the FY.",
+    )
     args = parser.parse_args()
 
     input_path = Path(args.input)
@@ -156,6 +161,21 @@ def main():
         except Exception as e:
             print("ERROR: Column alignment error.")
             raise
+
+        if args.add_composite:
+            comp_name = "composite_key"
+
+            ref = df.get("referenced_idv_piid", pd.Series(
+                [""] * len(df), index=df.index)).fillna("")
+            pid = df.get("piid", pd.Series(
+                [""] * len(df), index=df.index)).fillna("")
+            composite = ref.astype(str) + "~" + pid.astype(str)
+
+            composite = composite.mask(
+                (ref.astype(str) == "") & (pid.astype(str) == ""), "")
+
+            if comp_name not in df.columns or df.columns.get_loc(comp_name) != 0:
+                df.insert(0, comp_name, composite)
 
         df.to_csv(output_path, index=False)
 
