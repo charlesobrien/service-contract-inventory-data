@@ -41,7 +41,7 @@ def merge_csvs(input_dir, pattern, output_path, col_name, encoding, recursive):
         print("All matched CSVs are empty; nothing to merge.", file=sys.stderr)
         sys.exit(3)
 
-    out_header = [col_name] + ref_header
+    out_header = ["lookup", col_name] + ref_header
 
     written_rows = 0
     with open(output_path, "w", encoding=encoding, newline="") as out_f:
@@ -64,7 +64,7 @@ def merge_csvs(input_dir, pattern, output_path, col_name, encoding, recursive):
                 base = os.path.basename(fp)
                 prefix = base[:4]
                 for row in reader:
-                    data_row = [prefix] + \
+                    data_row = [f"{prefix}~{row.get('composite_key', '')}", prefix] + \
                         [row.get(col, "") for col in ref_header]
                     writer.writerow(data_row)
                     written_rows += 1
