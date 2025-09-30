@@ -95,8 +95,8 @@ def main():
     )
     parser.add_argument(
         "--encoding",
-        default="utf-8-sig",
-        help="File encoding for input/output (default: utf-8-sig).",
+        default="utf-8",
+        help="File encoding for input/output (default: utf-8).",
     )
     parser.add_argument(
         "--recursive", action="store_true", help="If set, search nested folders too."
